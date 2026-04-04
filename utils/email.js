@@ -1,21 +1,12 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend')
 
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  });
-};
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const sendVerificationEmail = async (user, token) => {
-  const transporter = createTransporter();
-  const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+  const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`
 
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'SkillBridge <noreply@skillbridge.dev>',
+  await resend.emails.send({
+    from: 'SkillBridge <onboarding@resend.dev>',
     to: user.email,
     subject: '✅ Verify your SkillBridge account',
     html: `
@@ -32,19 +23,14 @@ const sendVerificationEmail = async (user, token) => {
           </div>
           <p style="color: #9ca3af; font-size: 13px;">This link expires in 24 hours. If you didn't create an account, ignore this email.</p>
         </div>
-        <div style="background: #f9fafb; padding: 16px 32px; border-top: 1px solid #e5e7eb;">
-          <p style="color: #9ca3af; font-size: 12px; margin: 0;">© 2026 SkillBridge. Built for students, by students.</p>
-        </div>
       </div>
     `
-  });
-};
+  })
+}
 
 const sendWelcomeEmail = async (user) => {
-  const transporter = createTransporter();
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'SkillBridge <noreply@skillbridge.dev>',
+  await resend.emails.send({
+    from: 'SkillBridge <onboarding@resend.dev>',
     to: user.email,
     subject: '🚀 Welcome to SkillBridge — Let\'s build something great!',
     html: `
@@ -67,15 +53,14 @@ const sendWelcomeEmail = async (user) => {
         </div>
       </div>
     `
-  });
-};
+  })
+}
 
 const sendPasswordResetEmail = async (user, token) => {
-  const transporter = createTransporter();
-  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`
 
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM,
+  await resend.emails.send({
+    from: 'SkillBridge <onboarding@resend.dev>',
     to: user.email,
     subject: '🔐 Reset your SkillBridge password',
     html: `
@@ -89,11 +74,11 @@ const sendPasswordResetEmail = async (user, token) => {
           <div style="text-align: center; margin: 24px 0;">
             <a href="${resetUrl}" style="background: #dc2626; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600;">Reset Password</a>
           </div>
-          <p style="color: #9ca3af; font-size: 13px;">If you didn't request this, ignore this email. Your password will not change.</p>
+          <p style="color: #9ca3af; font-size: 13px;">If you didn't request this, ignore this email.</p>
         </div>
       </div>
     `
-  });
-};
+  })
+}
 
-module.exports = { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail };
+module.exports = { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail }
