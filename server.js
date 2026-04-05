@@ -6,12 +6,28 @@ const mongoose = require('mongoose');
 const app = express();
 
 // Middleware
+const cors = require('cors')
+
+const allowedOrigins = [
+  'https://skillbridgefrontend-taupe.vercel.app',
+  'http://localhost:5173'
+]
+
 app.use(cors({
-  origin: 'https://skillbridgefrontend-taupe.vercel.app',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }))
+
+// This is critical — handles preflight requests
+app.options('*', cors())
 
 // DB Connection
 mongoose.connect(process.env.MONGODB_URI)
