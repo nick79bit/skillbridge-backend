@@ -28,6 +28,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/communities', require('./routes/communities'));
 app.use('/api/hackathons', require('./routes/hackathons'));
 app.use('/api/teams', require('./routes/teams'));
+app.use('/api/townhall', require('./routes/townhall'));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date() }));
 
