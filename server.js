@@ -7,14 +7,11 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: [
-
-    'https://skillbridgefrontend-taupe.vercel.app',
-    process.env.FRONTEND_URL
-  ].filter(Boolean),
-  credentials: true
-}));
-app.use(express.json());
+  origin: 'https://skillbridgefrontend-taupe.vercel.app',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}))
 
 // DB Connection
 mongoose.connect(process.env.MONGODB_URI)
