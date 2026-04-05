@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // Middleware
-const cors = require('cors')
+
 
 const allowedOrigins = [
   'https://skillbridgefrontend-taupe.vercel.app',
