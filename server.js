@@ -7,7 +7,11 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'https://skillbridgeprototype.vercel.app'],
+  origin: [
+    'http://localhost:5173',
+    'https://skillbridgeprototype.vercel.app',
+    'https://skillbridgefrontend-taupe.vercel.app'
+  ],
   credentials: true
 }));
 app.use(express.json());
