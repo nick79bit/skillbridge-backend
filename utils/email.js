@@ -1,14 +1,17 @@
-const { Resend } = require('resend')
+const Brevo = require('@getbrevo/brevo')
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const client = Brevo.ApiClient.instance
+client.authentications['api-key'].apiKey = process.env.BREVO_API_KEY
 
 const sendVerificationEmail = async (user, token) => {
   const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`
-  await resend.emails.send({
-    from: 'SkillBridge <onboarding@resend.dev>',
-    to: user.email,
+  const api = new Brevo.TransactionalEmailsApi()
+
+  await api.sendTransacEmail({
+    sender: { name: 'SkillBridge', email: 'noreply@skillbridge.dev' },
+    to: [{ email: user.email, name: user.name }],
     subject: '✅ Verify your SkillBridge account',
-    html: `
+    htmlContent: `
       <div style="font-family:Inter,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;border:1px solid #e5e7eb;">
         <div style="background:linear-gradient(135deg,#4f46e5,#7c3aed);padding:32px;text-align:center;">
           <h1 style="color:#fff;margin:0;font-size:24px;">SkillBridge</h1>
@@ -28,11 +31,13 @@ const sendVerificationEmail = async (user, token) => {
 }
 
 const sendWelcomeEmail = async (user) => {
-  await resend.emails.send({
-    from: 'SkillBridge <onboarding@resend.dev>',
-    to: user.email,
+  const api = new Brevo.TransactionalEmailsApi()
+
+  await api.sendTransacEmail({
+    sender: { name: 'SkillBridge', email: 'noreply@skillbridge.dev' },
+    to: [{ email: user.email, name: user.name }],
     subject: '🚀 Welcome to SkillBridge!',
-    html: `
+    htmlContent: `
       <div style="font-family:Inter,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;border:1px solid #e5e7eb;">
         <div style="background:linear-gradient(135deg,#4f46e5,#7c3aed);padding:32px;text-align:center;">
           <h1 style="color:#fff;margin:0;font-size:24px;">SkillBridge</h1>
@@ -57,11 +62,13 @@ const sendWelcomeEmail = async (user) => {
 
 const sendPasswordResetEmail = async (user, token) => {
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`
-  await resend.emails.send({
-    from: 'SkillBridge <onboarding@resend.dev>',
-    to: user.email,
+  const api = new Brevo.TransactionalEmailsApi()
+
+  await api.sendTransacEmail({
+    sender: { name: 'SkillBridge', email: 'noreply@skillbridge.dev' },
+    to: [{ email: user.email, name: user.name }],
     subject: '🔐 Reset your SkillBridge password',
-    html: `
+    htmlContent: `
       <div style="font-family:Inter,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;border:1px solid #e5e7eb;">
         <div style="background:linear-gradient(135deg,#4f46e5,#7c3aed);padding:32px;text-align:center;">
           <h1 style="color:#fff;margin:0;font-size:24px;">SkillBridge</h1>
