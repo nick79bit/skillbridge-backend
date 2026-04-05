@@ -8,8 +8,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: [
-    'http://localhost:5173',
-    'https://skillbridgeprototype.vercel.app',
+
     'https://skillbridgefrontend-taupe.vercel.app',
     process.env.FRONTEND_URL
   ].filter(Boolean),
