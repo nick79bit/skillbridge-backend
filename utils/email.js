@@ -9,6 +9,11 @@ const transporter = nodemailer.createTransport({
   }
 })
 
+transporter.verify((error, success) => {
+  if (error) console.error('SMTP config error:', error);
+  else console.log('SMTP ready');
+});
+
 const sendVerificationEmail = async (user, token) => {
   const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`
   await transporter.sendMail({
