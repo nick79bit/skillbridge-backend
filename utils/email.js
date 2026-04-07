@@ -17,7 +17,7 @@ transporter.verify((error, success) => {
 const sendVerificationEmail = async (user, token) => {
   const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`
   await transporter.sendMail({
-    from: '"SkillBridge" <a7297a001@smtp-brevo.com>',
+    from: '"SkillBridge" <ombodke384@gmail.com>',
     to: user.email,
     subject: '✅ Verify your SkillBridge account',
     html: `
@@ -40,7 +40,7 @@ const sendVerificationEmail = async (user, token) => {
 
 const sendWelcomeEmail = async (user) => {
   await transporter.sendMail({
-    from: '"SkillBridge" <a7297a001@smtp-brevo.com>',
+   from: '"SkillBridge" <ombodke384@gmail.com>',
     to: user.email,
     subject: '🚀 Welcome to SkillBridge!',
     html: `
@@ -62,7 +62,7 @@ const sendWelcomeEmail = async (user) => {
 const sendPasswordResetEmail = async (user, token) => {
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`
   await transporter.sendMail({
-    from: '"SkillBridge" <a7297a001@smtp-brevo.com>',
+    from: '"SkillBridge" <ombodke384@gmail.com>',
     to: user.email,
     subject: '🔐 Reset your SkillBridge password',
     html: `<p style="font-family:sans-serif;">Hi ${user.name},<br><br>
