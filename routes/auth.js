@@ -46,7 +46,7 @@ router.get('/verify-email', async (req, res) => {
     const { token } = req.query;
     const user = await User.findOne({
       verificationToken: token,
-      verificationTokenExpiry: { $gt: Date.now() }
+      verificationTokenExpiry: { $gt: Date.now() + 20000 }
     });
     if (!user) return res.status(400).json({ message: 'Invalid or expired verification link.' });
 
